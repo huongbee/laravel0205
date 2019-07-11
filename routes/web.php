@@ -14,3 +14,12 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('trang-chu', function(){
+    return 1;
+});
+Route::get('chi-tiet/{id}-{alias}.html', function($idProduct, $alias){
+    echo $idProduct;
+    echo $alias;
+    return $_GET["id"];
+});
