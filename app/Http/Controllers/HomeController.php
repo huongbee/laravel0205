@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Validator;
 
 class HomeController extends Controller
 {
@@ -35,5 +36,30 @@ class HomeController extends Controller
     }
     function getRegister(){
         return view('user.register');
+    }
+    function postRegister(Request $req){
+        // echo $_POST['email'];
+        // echo $req->input('email');
+        // echo $req->input('username', 'no username');
+        // echo $req->email;
+        // dd($req->all()); // get all data input
+        // dd($req->only('email', 'password'));
+        // dd($req->except('email', 'password'));
+
+        $check = Validator::make($req->all(),[
+            'email' => 'required|email|min:6',
+            'password' => 'required|min:6',
+            'repassword' => 'same:password',
+            'fullname' => 'required|min:10|max:100',
+            'age' => 'numeric|min:18|max:100'
+        ]);
+        if($check->fails()){
+            return redirect()->back()
+            ->withErrors($check);
+        }
+        dd($req->all());
+
+
+
     }
 }

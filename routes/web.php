@@ -53,8 +53,8 @@
 //     Route::get('add','HomeController@add');
 // });
 
-Route::get('register','HomeController@getRegister');
-Route::post('register','HomeController@postRegister');
+Route::get('register','HomeController@getRegister')->name('user-register');
+Route::post('register','HomeController@postRegister')->name('user-register');
 
 // Route::match(['get','post'], 'register', 'HomeController@register' );
 
