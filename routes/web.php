@@ -37,4 +37,24 @@
 //     'HomeController@getDetail'
 // );
 
-Route::get('list/{page?}','HomeController@listProduct');
+// Route::get('list/{page?}','HomeController@listProduct')->name('list-product');
+
+// Route::get('test-name/{page}','HomeController@testName');
+
+// Route::prefix('product')->group(function(){
+//     Route::get('/','HomeController@index');
+//     Route::get('add','HomeController@add');
+// });
+
+
+
+// Route::group(['prefix'=>'product'],function(){
+//     Route::get('/','HomeController@index');
+//     Route::get('add','HomeController@add');
+// });
+
+Route::get('register','HomeController@getRegister');
+Route::post('register','HomeController@postRegister');
+
+// Route::match(['get','post'], 'register', 'HomeController@register' );
+
