@@ -17,11 +17,13 @@
     }
     </style>
     <div>
-        @if($errors->any())
+        {{-- @if($errors->any())
             @foreach($errors->all() as $error)
                 <li>{{$error}}</li>
             @endforeach
-        @endif
+        @else
+            <b>Khong co loi xay ra</b>
+        @endif --}}
     </div>
     <form method="POST" action="{{route('user-register')}}">
         <h2>User register</h2>
@@ -41,13 +43,24 @@
         <div>
             <label for="">Email:</label>
             <div>
-                <input type="text" placeholder="Enter email" name="email">
+                <input type="text" placeholder="Enter email" name="email"
+                value="{{old('email')}}" >
+                @if($errors->has('email'))
+                    @foreach($errors->get('email') as $err)
+                        <li style="color:red">{{$err}}</li>
+                    @endforeach
+                @endif
             </div>
         </div>
         <div>
             <label for="">Fullname:</label>
             <div>
-                <input type="text" placeholder="Enter fullname" name="fullname">
+            <input type="text" placeholder="Enter fullname" name="fullname" value="{{old('fullname')}}" >
+                @if($errors->has('fullname'))
+                    @foreach($errors->get('fullname') as $err)
+                        <li style="color:red">{{$err}}</li>
+                    @endforeach
+                @endif
             </div>
         </div>
         <div>

@@ -46,16 +46,25 @@ class HomeController extends Controller
         // dd($req->only('email', 'password'));
         // dd($req->except('email', 'password'));
 
-        $check = Validator::make($req->all(),[
+        $rules = [
             'email' => 'required|email|min:6',
             'password' => 'required|min:6',
             'repassword' => 'same:password',
             'fullname' => 'required|min:10|max:100',
             'age' => 'numeric|min:18|max:100'
-        ]);
+        ];
+        $mess = [
+            'repassword.same' => 'Password và repassword phải giống nhau.',
+            'age.min' => 'Tuổi phải lớn hơn hoặc bằng :min'
+        ];
+        $check = Validator::make($req->all(),$rules,$mess);
         if($check->fails()){
-            return redirect()->back()
-            ->withErrors($check);
+            // return redirect()->back()
+            // ->withErrors($check);
+            return redirect()->route('get-user-register')
+            ->withErrors($check)
+            ->withInput($req->all());
+
         }
         dd($req->all());
 
