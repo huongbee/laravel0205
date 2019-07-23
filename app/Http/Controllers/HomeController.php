@@ -72,9 +72,42 @@ class HomeController extends Controller
         return view('upload-file');
     }
     function postUpload(Request $req){
+        /**
+         * upload single file
+            if($req->hasFile('avatar')){
+                $file = $req->file('avatar');
+                // dd($file);
+                $check = Validator::make($req->all(),[
+                    'avatar' => 'file|max:200|mimes:jpeg,png,gif' 
+                ]);
+                if($check->fails()){
+                    return redirect()->back()
+                    ->withErrors($check);
+                }
+                else{
+                    // $sizeMax = $file->getMaxFilesize();  // 2mb
+                    $size = $file->getClientSize();
+                    if($size> 200*1024){
+                        return redirect()->back()
+                                ->with('error','Upload Fail!');
+                    }
+                    // dd($size);
+                    // $mimetype = $file->getClientMimeType(); 
+
+                    $name = str_random().'-'.$file->getClientOriginalName();
+                    $f = $file->move('images/users', $name );
+                    if($f){ // success
+                        return redirect()->back()
+                                ->with('success','Upload success!');
+                    }
+                }
+            }
+            else echo 'Vui long chon file';
+         */
+        // upload multi file
         if($req->hasFile('avatar')){
-            $file = $req->file('avatar');
-            // dd($file);
+            $files = $req->file('avatar');
+            // validator
             $check = Validator::make($req->all(),[
                 'avatar' => 'file|max:200|mimes:jpeg,png,gif' 
             ]);
@@ -82,30 +115,11 @@ class HomeController extends Controller
                 return redirect()->back()
                 ->withErrors($check);
             }
-            else{
-                // $sizeMax = $file->getMaxFilesize();  // 2mb
-                $size = $file->getClientSize();
-                if($size> 200*1024){
-                    return redirect()->back()
-                            ->with('error','Upload Fail!');
-                }
-                // dd($size);
-                // $mimetype = $file->getClientMimeType(); 
-
-                $name = str_random().'-'.$file->getClientOriginalName();
-                $f = $file->move('images/users', $name );
-                if($f){ // success
-                    return redirect()->back()
-                            ->with('success','Upload success!');
-                }
+            foreach($files as $file){
+                $name = time().'-'.$file->getClientOriginalName();
+                $file->move('images/users', $name);
             }
-            /**
-             * check file size <= 200 kb
-             * check file type (png, gif, jpeg)
-             * rename file
-             */
-            
-
+            return redirect()->back()->with('success', 'Upload multiple success');
         }
         else echo 'Vui long chon file';
     }

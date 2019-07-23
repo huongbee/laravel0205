@@ -20,7 +20,8 @@
     @endif
     <form action="{{route('upload-file')}}" method="post" enctype="multipart/form-data">
         @csrf
-        <input type="file" name="avatar">
+        {{-- <input type="file" name="avatar"> --}}
+        <input type="file" name="avatar[]" multiple>
         <button type="submit">Upload</button>
     </form>
 </body>
