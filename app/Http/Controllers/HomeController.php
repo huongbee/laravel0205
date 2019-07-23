@@ -74,7 +74,38 @@ class HomeController extends Controller
     function postUpload(Request $req){
         if($req->hasFile('avatar')){
             $file = $req->file('avatar');
-            dd($file);
+            // dd($file);
+            $check = Validator::make($req->all(),[
+                'avatar' => 'file|max:200|mimes:jpeg,png,gif' 
+            ]);
+            if($check->fails()){
+                return redirect()->back()
+                ->withErrors($check);
+            }
+            else{
+                // $sizeMax = $file->getMaxFilesize();  // 2mb
+                $size = $file->getClientSize();
+                if($size> 200*1024){
+                    return redirect()->back()
+                            ->with('error','Upload Fail!');
+                }
+                // dd($size);
+                // $mimetype = $file->getClientMimeType(); 
+
+                $name = str_random().'-'.$file->getClientOriginalName();
+                $f = $file->move('images/users', $name );
+                if($f){ // success
+                    return redirect()->back()
+                            ->with('success','Upload success!');
+                }
+            }
+            /**
+             * check file size <= 200 kb
+             * check file type (png, gif, jpeg)
+             * rename file
+             */
+            
+
         }
         else echo 'Vui long chon file';
     }

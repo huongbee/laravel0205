@@ -7,10 +7,21 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="{{route('upload-file')}}" method="post">
+    @if($errors->any())
+        @foreach($errors->all() as $err)
+            <li>{{$err}}</li>
+        @endforeach
+    @endif
+    @if(Session::has('success'))
+        <b>{{Session::get('success')}}</b>
+    @endif
+    @if(Session::has('error'))
+        <b>{{Session::get('error')}}</b>
+    @endif
+    <form action="{{route('upload-file')}}" method="post" enctype="multipart/form-data">
         @csrf
         <input type="file" name="avatar">
-        <button>Upload</button>
+        <button type="submit">Upload</button>
     </form>
 </body>
 </html>
