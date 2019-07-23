@@ -67,8 +67,15 @@ class HomeController extends Controller
 
         }
         dd($req->all());
-
-
-
+    }
+    function getUpload(){
+        return view('upload-file');
+    }
+    function postUpload(Request $req){
+        if($req->hasFile('avatar')){
+            $file = $req->file('avatar');
+            dd($file);
+        }
+        else echo 'Vui long chon file';
     }
 }
