@@ -59,5 +59,12 @@ Route::post('register','HomeController@postRegister')->name('user-register');
 Route::get('upload-file','HomeController@getUpload')->name('upload-file');
 Route::post('upload-file','HomeController@postUpload')->name('upload-file');
 
+Route::get('test',function(){
+    echo date('Y-m-d H:i:s', time());
+});
 // Route::match(['get','post'], 'register', 'HomeController@register' );
-
+// php artisan config:cache
+// php artisan cache:clear
+// php artisan view:clear
+// php artisan view:cache
+// php artisan
