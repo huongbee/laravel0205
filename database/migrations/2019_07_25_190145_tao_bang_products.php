@@ -33,5 +33,9 @@ class TaoBangProducts extends Migration
         Schema::dropIfExists('products');
     }
 }
+// up
 // $t->foreign('type_id')->references('id')->on('type_products');
 // products_type_id_foreign
+
+// down
+//$table->dropForeign('products_type_id_foreign');
