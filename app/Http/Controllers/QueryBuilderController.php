@@ -61,11 +61,93 @@ class QueryBuilderController extends Controller
         //         ['new', '=', 1]
         //     ])->get(); 
         // c2
-        $data = DB::table('products')
-            ->select('id', 'name', 'price')
-            ->where('price', '>=', 20000000)
-            ->where('new', '=', 1)
-            ->get();
+        // $data = DB::table('products')
+        //     ->select('id', 'name', 'price')
+        //     ->where('price', '>=', 20000000)
+        //     ->where('new', 1)
+        //     ->get();
+
+        // SELECT id, name, price
+        // FROM products
+        // WHERE id = 12 OR id = 10 OR id <= 2
+        // ORDER BY id DESC
+        // LIMIT 1,2
+        // $data = DB::table('products')
+        //     ->select('id', 'name', 'price')
+        //     ->where('id', 12)
+        //     ->orWhere('id', 10)
+        //     ->orWhere('id', '<=', 2)
+        //     ->orderBy('id','DESC')
+        //     ->skip(1)
+        //     ->take(2)
+        //     // ->offset(1) //vitri
+        //     // ->limit(2) // soluong
+        //     ->get();
+        // dd($data);
+
+        // SELECT id, name, price
+        // FROM products
+        // WHERE price BETWEEN 20000000 AND 50000000 
+        // $data = DB::table('products')
+        //     ->select('id', 'name', 'price')
+        //     ->whereBetween('price', [20000000, 50000000])
+        //     ->get();
+        // dd($data);
+
+        // SELECT id, name, price
+        // FROM products
+        // WHERE promotion IS NULL
+        // $data = DB::table('products')
+        //     ->select('id', 'name', 'price')
+        //     ->where('promotion', '=', null)
+        //     ->get();
+        // $data = DB::table('products')
+        //     ->select('id', 'name', 'price')
+        //     ->whereNull('promotion')
+        //     ->get();
+        // $data = DB::table('products')
+        //     ->select('id', 'name', 'update_at')
+        //     // ->whereDay('update_at',5)
+        //     ->whereDate('update_at','2018-09-04')
+        //     ->get();
+
+        // $data = DB::table('products')
+        //     ->select('id', 'price', 'promotion_price')
+        //     ->whereColumn('price','<>','promotion_price')
+        //     ->get();
+        // dd($data);
+
+        // SELECT id, name, price
+        // FROM products
+        // WHERE price < 10000000 
+        //      AND (id_type = 6 OR id <= 2)
+        // $data = DB::table('products')
+        //     ->select('id', 'price', 'promotion_price')
+        //     ->where('price', '<', 10000000 )
+        //     ->where(function($q){
+        //         $q->where('id_type', 6)
+        //         ->orWhere('id', '<=', 2);
+        //     })
+        //     ->get(); 
+
+        // $data = DB::table('products')
+        //     ->selectRaw("avg(price) as tb")
+        //     ->first(); 
+        // dd($data);  
+
+        // $sql = "SELECT * FROM users";
+        // $data = DB::select($sql); 
+        // dd($data);
+
+        // SELECT p.name as pname , c.name as cname
+        // FROM products p
+        // INNER JOIN categories c
+        // ON p.id_type = c.id
+
+        $data = DB::table('products as p')
+                ->select('p.name as pname', 'c.name as cname')
+                ->join('categories as c','p.id_type','=','c.id')
+                ->get();
         dd($data);
     }
 }
