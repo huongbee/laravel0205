@@ -68,3 +68,5 @@ Route::get('test',function(){
 // php artisan view:clear
 // php artisan view:cache
 // php artisan
+
+Route::get('query-builder','QueryBuilderController@index');
