@@ -177,14 +177,26 @@ class QueryBuilderController extends Controller
         /**
          * select c.name as tenloai, c.id as idType, count(p.id) as tongSP from `products` as `p` inner join `categories` as `c` on `c`.`id` = `p`.`id_type` and `c`.`name` in (Phu kien, iMac) group by `c`.`name, c`.`id` having `tongSP` >= 10 order by `tongSP` asc
          */
+        // $data = DB::table('products as p')
+        //     ->selectRaw('c.name as tenloai, c.id as idType, count(p.id) as tongSP')
+        //     ->rightJoin('categories as c', function ($q) {
+        //         $q->on('c.id', '=', 'p.id_type');
+        //         $q->whereIn('c.name', ['Phu kien', 'iMac']);
+        //     })
+        //     ->groupBy('c.name', 'c.id')
+        //     ->having('tongSP', '>=', 10)
+        //     ->orderBy('tongSP', 'ASC')
+        //     ->get();
+
         $data = DB::table('products as p')
-            ->selectRaw('c.name as tenloai, c.id as idType, count(p.id) as tongSP')
-            ->rightJoin('categories as c', function ($q) {
+            ->join('categories as c', function ($q) {
                 $q->on('c.id', '=', 'p.id_type');
-                $q->whereIn('c.name', ['Phu kien', 'iMac']);
             })
-            ->groupBy('c.name', 'c.id')
-            ->having('tongSP', '>=', 10)
+            ->selectRaw('c.name as tenloai, sum(p.price) as tongtien, count(p.id) as tongSP')
+            ->groupBy('c.name')
+            ->whereBetween('price', [50000000, 100000000])
+            // ->havingRaw('sum(p.price) >= ?', [100000000])
+            // ->having('tongtien', '<=', 200000000)
             ->orderBy('tongSP', 'ASC')
             ->get();
         dd($data);
