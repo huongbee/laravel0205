@@ -53,13 +53,13 @@
 //     Route::get('add','HomeController@add');
 // });
 
-Route::get('register','HomeController@getRegister')->name('get-user-register');
-Route::post('register','HomeController@postRegister')->name('user-register');
+Route::get('register', 'HomeController@getRegister')->name('get-user-register');
+Route::post('register', 'HomeController@postRegister')->name('user-register');
 
-Route::get('upload-file','HomeController@getUpload')->name('upload-file');
-Route::post('upload-file','HomeController@postUpload')->name('upload-file');
+Route::get('upload-file', 'HomeController@getUpload')->name('upload-file');
+Route::post('upload-file', 'HomeController@postUpload')->name('upload-file');
 
-Route::get('test',function(){
+Route::get('test', function () {
     echo date('Y-m-d H:i:s', time());
 });
 // Route::match(['get','post'], 'register', 'HomeController@register' );
@@ -69,4 +69,5 @@ Route::get('test',function(){
 // php artisan view:cache
 // php artisan
 
-Route::get('query-builder','QueryBuilderController@index');
+Route::get('query-builder', 'QueryBuilderController@index');
+Route::get('model', 'ModelController@index');

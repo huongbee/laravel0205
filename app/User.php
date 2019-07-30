@@ -36,4 +36,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // if table name is not 'users'
+    protected $table = 'user';
 }
