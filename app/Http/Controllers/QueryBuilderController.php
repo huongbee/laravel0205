@@ -7,7 +7,8 @@ use DB;
 
 class QueryBuilderController extends Controller
 {
-    function index(){
+    function index()
+    {
         // SELECT * FROM users
         // $data = DB::table('users')
         //          ->get(); // [ {}, {}, ... ]
@@ -144,10 +145,48 @@ class QueryBuilderController extends Controller
         // INNER JOIN categories c
         // ON p.id_type = c.id
 
+        // $data = DB::table('products as p')
+        //         ->select('p.name as pname', 'c.name as cname')
+        //         ->join('categories as c','p.id_type','=','c.id')
+        //         ->get();
+
+        // $data = DB::table('products')
+        //     ->select('name', 'price', 'image')
+        // ->whereIn('name', [
+        //     'iPhone X 256GB',
+        //     'iPhone 8 Plus 256GB',
+        //     'iPhone 7 Plus 32GB'
+        // ])->get();
+        // $data = DB::table('products')
+        //     ->select('name', 'price', 'image')
+        //     ->where('name', 'iPhone X 256GB')
+        //     ->orWhere('name', 'iPhone 8 Plus 256GB')
+        //     ->orWhere('name', 'iPhone 7 Plus 32GB')
+        //     ->get();
+        /**
+         * SELECT p.name as sp, c.name as loai, c.id as idType FROM products p RIGHT JOIN `categories` c ON p.id_type = c.id WHERE c.id IN (14,15)
+         */
+        // $data = DB::table('products as p')
+        //     ->select('p.name as tensp', 'c.name as tenloai', 'c.id as idType')
+        //     ->rightJoin('categories as c', function ($q) {
+        //         $q->on('c.id', '=', 'p.id_type');
+        //     })
+        //     ->whereIn('c.id', [14, 15])
+        // ->join('categories as c', 'c.id', '=', 'p.id_type')
+        // ->get();
+        /**
+         * select c.name as tenloai, c.id as idType, count(p.id) as tongSP from `products` as `p` inner join `categories` as `c` on `c`.`id` = `p`.`id_type` and `c`.`name` in (Phu kien, iMac) group by `c`.`name, c`.`id` having `tongSP` >= 10 order by `tongSP` asc
+         */
         $data = DB::table('products as p')
-                ->select('p.name as pname', 'c.name as cname')
-                ->join('categories as c','p.id_type','=','c.id')
-                ->get();
+            ->selectRaw('c.name as tenloai, c.id as idType, count(p.id) as tongSP')
+            ->rightJoin('categories as c', function ($q) {
+                $q->on('c.id', '=', 'p.id_type');
+                $q->whereIn('c.name', ['Phu kien', 'iMac']);
+            })
+            ->groupBy('c.name', 'c.id')
+            ->having('tongSP', '>=', 10)
+            ->orderBy('tongSP', 'ASC')
+            ->get();
         dd($data);
     }
 }
